@@ -1,0 +1,24 @@
+version: "3"
+services:
+  broker:
+    image: "touilleio/alephium-standalone:v1.4.6"
+    build:
+      context: .
+    restart: always
+    ports:
+      - 39973:39973/tcp
+      - 39973:39973/udp
+      - 127.0.0.1:10973:10973/tcp
+      - 127.0.0.1:12973:12973/tcp
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - ./alephium-data:/alephium-home/.alephium
+#    environment:
+#      - ALEPHIUM_NETWORK=testnet
+#      - ALEPHIUM_FORCE_RELOAD_SNAPSHOT=1
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "10"
+        max-size: 100m
