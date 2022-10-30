@@ -5,6 +5,9 @@ services:
     image: "touilleio/alephium-standalone:v1.4.6"
     build:
       context: .
+      args:
+        RELEASE: v1.4.6
+    platform: linux/amd64
     restart: always
     ports:
       - 39973:39973/tcp
