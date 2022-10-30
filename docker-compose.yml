@@ -1,4 +1,5 @@
 version: "3"
+
 services:
   broker:
     image: "touilleio/alephium-standalone:v1.4.6"
