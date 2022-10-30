@@ -40,11 +40,19 @@ then
     echo "Loading $ALEPHIUM_NETWORK snapshot from official https://archives.alephium.org"
     # Creating a temp folder (on the same volume) where snapshot will be loaded
     mkdir "$ALEPHIUM_HOME/${ALEPHIUM_NETWORK}-snapshot"
-    curl -L "$(curl -s https://s3.eu-central-1.amazonaws.com/archives.alephium.org/archives/$ALEPHIUM_NETWORK/full-node-data/_latest.txt)" | tar xf - -C "$ALEPHIUM_HOME/${ALEPHIUM_NETWORK}-snapshot"
+    curl -L "$(curl -s https://s3.eu-central-1.amazonaws.com/archives.alephium.org/archives/$ALEPHIUM_NETWORK/full-node-data/_latest.txt)" | tee-hash --output "/tmp/sha256sum" | tar xf - -C "$ALEPHIUM_HOME/${ALEPHIUM_NETWORK}-snapshot"
     res=$?
     if [ "$res" != "0" ]; # If curl or tar command failed, stopping the load of the snapshot.
     then
-      echo "Loading and untar'ing the snapshot failed."
+      echo "Loading and untar'ing the snapshot failed. Restarting now"
+      exit 1
+    fi
+    # Check sha256 of what has been downloaded
+    remote_sha256sum="$(curl -s https://s3.eu-central-1.amazonaws.com/archives.alephium.org/archives/$ALEPHIUM_NETWORK/full-node-data/_latest.txt.sha256sum)"
+    local_sha256sum=$(cat "/tmp/sha256sum")
+    if [ "$remote_sha256sum" != "$local_sha256sum" ]
+    then
+      echo "Checksum is not good. Restarting now"
       exit 1
     fi
     # If the loading of the snapshot went well on the temp folder, move it to its final location

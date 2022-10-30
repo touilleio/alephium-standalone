@@ -10,6 +10,7 @@ in order to add the following features:
   - Runs on port *39973* (instead of the default 9973) to be compatible with platforms such as [Flux](https://www.runonflux.io/)
   - Without [API key](https://wiki.alephium.org/full-node/Full-Node-More/#api-key)
   - A [testnet user.conf](./user-testnet.conf) is also available for [testing](https://wiki.alephium.org/network/testnet-guide).
+- Check the sha256sum of the downloaded snapshot (using [tee-hash](https://github.com/touilleio/tee-hash) to do it all in one stream)
 
 A basic [docker-compose.yml](./docker-compose.yml) show how to quickly run the container.
 
@@ -25,3 +26,12 @@ A basic [docker-compose.yml](./docker-compose.yml) show how to quickly run the c
 
 The [wrapper script](./snapshot-loader-entrypoint-wrapper.sh) contains lots of comments to make it understandable of what and how it is wrapping
 the official [entrypoint.sh script](https://github.com/alephium/alephium/blob/master/docker/release/entrypoint.sh).
+
+# Restarting from scratch
+
+If you want to restart from scratch and re-download the folders, delete all what is inside your alephium data folder,
+i.e. if you're using the provided [docker-compose.yml](./docker-compose.yml):
+
+```
+rm -r alephium-data/*
+```
