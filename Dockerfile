@@ -1,4 +1,5 @@
-ARG RELEASE=v1.4.6
+ARG RELEASE=v0.0.0
+ARG IMAGE=alephium/alephium
 ARG TARGETOS
 ARG TARGETARCH
 
@@ -6,7 +7,7 @@ FROM golang:1.19-buster as builder
 
 RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} go install github.com/touilleio/tee-hash@latest
 
-FROM alephium/alephium:${RELEASE}
+FROM ${IMAGE}:${RELEASE}
 
 COPY --from=builder /go/bin/tee-hash /usr/local/bin/tee-hash
 

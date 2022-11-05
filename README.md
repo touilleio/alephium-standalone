@@ -2,8 +2,11 @@ Alephium standalone
 ====
 
 This repository builds a container image of [Alephium layer 1 blockchain](https://alephium.org) full node
-based on the official `alephium/alephium`, wrapping the entrypoint with [snapshot-loader-entrypoint-wrapper.sh](./snapshot-loader-entrypoint-wrapper.sh)
-in order to add the following features:
+based on the official [`alephium/alephium`](https://hub.docker.com/r/alephium/alephium/tags), wrapping the entrypoint with [snapshot-loader-entrypoint-wrapper.sh](./snapshot-loader-entrypoint-wrapper.sh)
+in order to add the features described below. The final images are available in [Docker Hub](https://hub.docker.com/r/touilleio/alephium-standalone/tags) under the
+name `touilleio/alephium-standalone`.
+
+# Features
 
 - Loads the latest snapshot from [https://archives.alephium.org](https://archives.alephium.org) to speed up the initial sync, if not already sync'ed
 - Ships a default [mainet user.conf](./user-mainnet.conf) with the following config:
@@ -14,7 +17,7 @@ in order to add the following features:
 
 A basic [docker-compose.yml](./docker-compose.yml) show how to quickly run the container.
 
-# Features and environment variable
+# Environment variables
 
 | Environment variable           | Default                    | Description                                                                                                                                                                                                                     |
 |--------------------------------|----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -27,9 +30,11 @@ A basic [docker-compose.yml](./docker-compose.yml) show how to quickly run the c
 The [wrapper script](./snapshot-loader-entrypoint-wrapper.sh) contains lots of comments to make it understandable of what and how it is wrapping
 the official [entrypoint.sh script](https://github.com/alephium/alephium/blob/master/docker/release/entrypoint.sh).
 
-# Restarting from scratch
+# Troubleshooting 
 
-If you want to restart from scratch and re-download the folders, delete all what is inside your alephium data folder,
+## Restarting from scratch
+
+If you want to restart from scratch and re-download the database, delete all what is inside your alephium data folder,
 i.e. if you're using the provided [docker-compose.yml](./docker-compose.yml):
 
 ```
