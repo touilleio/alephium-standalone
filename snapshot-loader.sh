@@ -10,7 +10,7 @@ TEE_HASH_CMD=$(which cat)
 VALIDATE_CHECKSUM=0
 if which tee-hash >/dev/null
 then
-  TEE_HASH_CMD="tee-hash --output '/tmp/sha256sum'"
+  TEE_HASH_CMD="tee-hash --output /tmp/sha256sum"
   VALIDATE_CHECKSUM=1
 fi
 
@@ -24,7 +24,7 @@ fi
 # Check ALEPHIUM_NETWORK environment variable value
 if [ "$ALEPHIUM_NETWORK" != "mainnet" ] && [ "$ALEPHIUM_NETWORK" != "testnet" ]
 then
-    echo "Network $ALEPHIUM_NETWORK is unsupported. Possible values are mainnet and testnet. Please fix the ALEPHIUM_NETWORK environment variable and relaunch"
+    echo "Error: Network $ALEPHIUM_NETWORK is unsupported. Possible values are mainnet and testnet. Please fix the ALEPHIUM_NETWORK environment variable and relaunch"
     exit 1
 fi
 
@@ -47,7 +47,7 @@ then
     res=$?
     if [ "$res" != "0" ]; # If curl or tar command failed, stopping the load of the snapshot.
     then
-      echo "Loading and untar'ing the snapshot failed. Restarting now"
+      echo "Error: Loading and untar'ing the snapshot failed."
       exit 1
     fi
     if [ "${VALIDATE_CHECKSUM}" = "1" ]
@@ -57,7 +57,7 @@ then
       local_sha256sum=$(cat "/tmp/sha256sum")
       if [ "$remote_sha256sum" != "$local_sha256sum" ]
       then
-        echo "Checksum is not good. Restarting now"
+        echo "Error: Checksum is not good."
         exit 1
       fi
     fi

@@ -3,9 +3,8 @@
 ALEPHIUM_HOME=${ALEPHIUM_HOME:-/alephium-home/.alephium}
 ALEPHIUM_NETWORK=${ALEPHIUM_NETWORK:-mainnet}
 
-./snapshot-loader.sh
-ret=$?
-if [ "$ret" != "0" ]
+# Call snapshot-loader.sh and ensure it completed successfully, stopping the execution otherwise.
+if ! ./snapshot-loader.sh
 then
   echo "Loading the snapshot failed. See logs above for more details, apply recommended actions and retry"
   exit 1
