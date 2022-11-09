@@ -11,7 +11,8 @@ FROM ${IMAGE}:${RELEASE}
 
 COPY --from=builder /go/bin/tee-hash /usr/local/bin/tee-hash
 
-COPY snapshot-loader-entrypoint-wrapper.sh /snapshot-loader-entrypoint-wrapper.sh
+COPY snapshot-loader.sh /snapshot-loader.sh
+COPY entrypoint-wrapper.sh /entrypoint-wrapper.sh
 
 COPY user-mainnet.conf /user-mainnet.conf
 COPY user-testnet.conf /user-testnet.conf
@@ -19,4 +20,4 @@ COPY user-testnet.conf /user-testnet.conf
 EXPOSE 39973/tcp
 EXPOSE 39973/udp
 
-ENTRYPOINT ["/snapshot-loader-entrypoint-wrapper.sh"]
+ENTRYPOINT ["/entrypoint-wrapper.sh"]

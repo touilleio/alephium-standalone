@@ -2,11 +2,11 @@ version: "3"
 
 services:
   broker:
-    image: "touilleio/alephium-standalone:v1.4.6"
+    image: "touilleio/alephium-standalone:v1.5.0"
     build:
       context: .
       args:
-        RELEASE: v1.4.6
+        RELEASE: v1.5.0
     platform: linux/amd64
     restart: always
     ports:
