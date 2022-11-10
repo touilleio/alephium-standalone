@@ -39,7 +39,7 @@ If the script completes, the snapshot has been successfully downloaded and is av
 You might need to change ownership of the files depending on what you'll do next.
 
 ```
-chown nobody:nogroup "${ALEPHIUM_HOME}/${ALEPHIUM_NETWORK}"
+chown nobody:nogroup -R "${ALEPHIUM_HOME}/${ALEPHIUM_NETWORK}"
 ```
 
 For more details about [Alephium Archives](https://archives.alephium.org) and snapshot loading, go to the [official snapshot loading documentation](https://docs.alephium.org/full-node/loading-snapshot)
