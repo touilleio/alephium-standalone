@@ -17,7 +17,7 @@ fi
 # Checking for ALEPHIUM_HOME folder is writable
 if [ ! -w "$ALEPHIUM_HOME" ]
 then
-    echo "Data folder $ALEPHIUM_HOME is not writable by $(whoami). Please change ownership and/or permissions to $ALEPHIUM_HOME or its mount so $(whoami) can write on it, then relaunch"
+    echo "Error: Data folder $ALEPHIUM_HOME is not writable by $(whoami). Please change ownership and/or permissions to $ALEPHIUM_HOME or its mount so $(whoami) can write on it, then relaunch"
     exit 1
 fi
 
