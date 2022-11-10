@@ -11,6 +11,9 @@ FROM ${IMAGE}:${RELEASE}
 
 COPY --from=builder /go/bin/tee-hash /usr/local/bin/tee-hash
 
+# Remove empty user.conf from parent container
+RUN rm -rf /alephium-home/.alephium/user.conf
+
 COPY snapshot-loader.sh /snapshot-loader.sh
 COPY entrypoint-wrapper.sh /entrypoint-wrapper.sh
 
