@@ -8,9 +8,10 @@ ALEPHIUM_FORCE_RELOAD_SNAPSHOT=${ALEPHIUM_FORCE_RELOAD_SNAPSHOT:-0}
 # Do not validate the checksum otherwise
 TEE_HASH_CMD=$(which cat)
 VALIDATE_CHECKSUM=0
+CHECKSUM_FILE=${CHECKSUM_FILE:-/var/tmp/sha256sum}
 if which tee-hash >/dev/null
 then
-  TEE_HASH_CMD="tee-hash --output /tmp/sha256sum"
+  TEE_HASH_CMD="tee-hash --output ${CHECKSUM_FILE}"
   VALIDATE_CHECKSUM=1
 fi
 
@@ -54,7 +55,7 @@ then
     then
       # Check sha256 of what has been downloaded
       remote_sha256sum="$(curl -s https://s3.eu-central-1.amazonaws.com/archives.alephium.org/archives/$ALEPHIUM_NETWORK/full-node-data/_latest.txt.sha256sum)"
-      local_sha256sum=$(cat "/tmp/sha256sum")
+      local_sha256sum=$(cat "${CHECKSUM_FILE}")
       if [ "$remote_sha256sum" != "$local_sha256sum" ]
       then
         echo "Error: Checksum is not good."
