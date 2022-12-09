@@ -67,5 +67,5 @@ jobs:
           build-args: "RELEASE=${{ steps.tag.outputs.tag }}"
           platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
-          tags: latest-root
+          tags: ${{ env.IMAGE_NAME }}/latest-root
           labels: ${{ steps.meta.outputs.labels }}
