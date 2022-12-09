@@ -1,0 +1,7 @@
+ARG RELEASE=v0.0.0
+
+FROM touilleio/alephium-standalone:${RELEASE}
+
+ENV ALEPHIUM_HOME=/data
+
+USER root

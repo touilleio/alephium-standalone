@@ -58,3 +58,14 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build and push Docker image running as root
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: {context}/Dockerfile-root
+          build-args: "RELEASE=${{ steps.tag.outputs.tag }}"
+          platforms: linux/amd64,linux/arm64
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: latest-root
+          labels: ${{ steps.meta.outputs.labels }}
