@@ -22,7 +22,7 @@ variable "instance_count" {
 variable "instance_type" {
   description = "Instance type"
   type        = string
-  default     = "t3.medium"
+  default     = "c5n.large"
 }
 
 variable "alephium_image" {
