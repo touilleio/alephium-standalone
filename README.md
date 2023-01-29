@@ -73,3 +73,5 @@ i.e. if you're using the provided [docker-compose.yml](./docker-compose.yml):
 ```
 rm -r alephium-data/*
 ```
+
+
