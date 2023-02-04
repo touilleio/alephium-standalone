@@ -74,4 +74,13 @@ i.e. if you're using the provided [docker-compose.yml](./docker-compose.yml):
 rm -r alephium-data/*
 ```
 
+# Terraform setup
 
+A terraform setup is provided for your convenience in the [terraform](./terraform) folder. Launch an AWS instance sync'ed
+to the chain withing ~30 minutes by simply doing:
+
+```
+terraform apply
+```
+
+Please refer to the official [terraform doc](https://developer.hashicorp.com/terraform/tutorials) if needed.
