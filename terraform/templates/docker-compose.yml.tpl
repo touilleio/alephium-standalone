@@ -4,8 +4,8 @@ services:
     image: "${alephium_image}"
     restart: always
     ports:
-      - 9973:9973/tcp
-      - 9973:9973/udp
+      - 39973:39973/tcp
+      - 39973:39973/udp
       - 10973:10973/tcp
       - 12973:12973/tcp
     security_opt:

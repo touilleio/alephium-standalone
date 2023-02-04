@@ -31,15 +31,15 @@ resource "aws_security_group" "alephium_broker_protocol" {
   vpc_id      = module.vpc.vpc_id
   # BlockFlow - Protocol
   ingress {
-    from_port   = 9973
-    to_port     = 9973
+    from_port   = 39973
+    to_port     = 39973
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
   # BlockFlow - Discovery
   ingress {
-    from_port   = 9973
-    to_port     = 9973
+    from_port   = 39973
+    to_port     = 39973
     protocol    = "udp"
     cidr_blocks = ["0.0.0.0/0"]
   }

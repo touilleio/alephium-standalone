@@ -7,12 +7,18 @@ locals {
       App       = "alephium"
       Component = "broker"
     })
-  key_name = "${var.environment}-rsa"
+  key_name = "${var.environment}-rsa-${random_string.random_suffix.result}"
 }
 
 resource "tls_private_key" "this" {
   algorithm = "RSA"
   rsa_bits  = "4096"
+}
+
+resource "random_string" "random_suffix" {
+  length  = 4
+  special = false
+  upper   = false
 }
 
 module "key_pair" {
