@@ -50,6 +50,17 @@ fi
 # If the full node network data storage folder does not exist (i.e. first run of the full node), loading the snapshot
 if [ ! -d "$ALEPHIUM_HOME/$ALEPHIUM_NETWORK" ]
 then
+
+    # Check if enough disk space available
+    availableSpace=$(df "$ALEPHIUM_HOME" | tail -n 1 | awk '{print $4}' | head -n 1)
+    neededSpace=$(curl -s -I -L "$(curl -s https://archives.alephium.org/archives/$ALEPHIUM_NETWORK/full-node-data/_latest.txt)" | grep Content-Length | awk '{print $2}' | tr -d '\r')
+    neededSpaceWithMargin=$(echo "${neededSpace} * 1.2 / 1000 / 1" | bc)
+    neededSpaceInGB=$(echo "${neededSpaceWithMargin} / 1000 / 1000 / 1" | bc)
+    if [ "$neededSpaceWithMargin" -gt "$availableSpace" ]; then
+        echo "Error: Not enough available storage space in ${ALEPHIUM_HOME}. Only ${availableSpace} KB available but at least ${neededSpaceWithMargin} KB (${neededSpaceInGB} GB) are needed. Please add more storage to ${ALEPHIUM_HOME}."
+        exit 1
+    fi
+
     echo "Loading $ALEPHIUM_NETWORK snapshot from official https://archives.alephium.org"
     # Creating a temp folder (on the same volume) where snapshot will be loaded
     mkdir "$ALEPHIUM_HOME/${ALEPHIUM_NETWORK}-snapshot"
