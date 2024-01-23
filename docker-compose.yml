@@ -6,7 +6,7 @@ services:
     build:
       context: .
       args:
-        RELEASE: v1.6.3
+        RELEASE: v2.7.0
     platform: linux/amd64
     restart: always
     ports:

@@ -15,10 +15,19 @@ then
   VALIDATE_CHECKSUM=1
 fi
 
-# Checking for ALEPHIUM_HOME folder is writable
+# Check if ALEPHIUM_HOME folder is writable
 if [ ! -w "$ALEPHIUM_HOME" ]
 then
     echo "Error: Data folder $ALEPHIUM_HOME is not writable by $(whoami). Please change ownership and/or permissions to $ALEPHIUM_HOME or its mount so $(whoami) can write on it, then relaunch"
+    exit 1
+fi
+
+# Check if enough disk space available
+availableSpace=$(df "$ALEPHIUM_HOME" | tail -n 1 | awk '{print $4}' | head -n 1)
+neededSpace=$(curl -s -I -L "$(curl -s https://archives.alephium.org/archives/$ALEPHIUM_NETWORK/full-node-data/_latest.txt)" | grep Content-Length | awk '{print $2}' | tr -d '\r')
+neededSpaceWithMargin=$(echo "${neededSpace} * 1.2 / 1" | bc)
+if [ "$neededSpaceWithMargin" -gt "$availableSpace" ]; then
+    echo "Error: Not enough available storage space in ${ALEPHIUM_HOME}. Only ${availableSpace}bytes available but at least ${neededSpaceWithMargin}bytes are needed. Please add more storage to ${ALEPHIUM_HOME}."
     exit 1
 fi
 
