@@ -55,3 +55,8 @@ write_files:
     owner: root:root
     content: |
       PermitRootLogin no
+  - path: /etc/ssh/sshd_config.d/ssh-rsa.conf
+    permissions: '0644'
+    owner: root:root
+    content: |
+      PubkeyAcceptedAlgorithms +ssh-rsa
