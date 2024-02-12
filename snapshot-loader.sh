@@ -22,15 +22,6 @@ then
     exit 1
 fi
 
-# Check if enough disk space available
-availableSpace=$(df "$ALEPHIUM_HOME" | tail -n 1 | awk '{print $4}' | head -n 1)
-neededSpace=$(curl -s -I -L "$(curl -s https://archives.alephium.org/archives/$ALEPHIUM_NETWORK/full-node-data/_latest.txt)" | grep Content-Length | awk '{print $2}' | tr -d '\r')
-neededSpaceWithMargin=$(echo "${neededSpace} * 1.2 / 1" | bc)
-if [ "$neededSpaceWithMargin" -gt "$availableSpace" ]; then
-    echo "Error: Not enough available storage space in ${ALEPHIUM_HOME}. Only ${availableSpace}bytes available but at least ${neededSpaceWithMargin}bytes are needed. Please add more storage to ${ALEPHIUM_HOME}."
-    exit 1
-fi
-
 # Check ALEPHIUM_NETWORK environment variable value
 if [ "$ALEPHIUM_NETWORK" != "mainnet" ] && [ "$ALEPHIUM_NETWORK" != "testnet" ]
 then
@@ -52,12 +43,14 @@ if [ ! -d "$ALEPHIUM_HOME/$ALEPHIUM_NETWORK" ]
 then
 
     # Check if enough disk space available
-    availableSpace=$(df "$ALEPHIUM_HOME" | tail -n 1 | awk '{print $4}' | head -n 1)
+    availableSpace=$(df -B1 "$ALEPHIUM_HOME" | tail -n 1 | awk '{print $4}' | head -n 1)
     neededSpace=$(curl -s -I -L "$(curl -s https://archives.alephium.org/archives/$ALEPHIUM_NETWORK/full-node-data/_latest.txt)" | grep Content-Length | awk '{print $2}' | tr -d '\r')
-    neededSpaceWithMargin=$(echo "${neededSpace} * 1.2 / 1000 / 1" | bc)
-    neededSpaceInGB=$(echo "${neededSpaceWithMargin} / 1000 / 1000 / 1" | bc)
+    neededSpaceWithMargin=$(echo "${neededSpace} * 1.2 / 1" | bc)
+    neededSpaceInGB=$(echo "${neededSpaceWithMargin} / 1000 / 1000 / 1000 / 1" | bc)
+    availableSpaceInGB=$(echo "${availableSpace} / 1000 / 1000 / 1000 / 1" | bc)
     if [ "$neededSpaceWithMargin" -gt "$availableSpace" ]; then
-        echo "Error: Not enough available storage space in ${ALEPHIUM_HOME}. Only ${availableSpace} KB available but at least ${neededSpaceWithMargin} KB (${neededSpaceInGB} GB) are needed. Please add more storage to ${ALEPHIUM_HOME}."
+        echo "Error: Not enough available storage space in ${ALEPHIUM_HOME}. Only ${availableSpaceInGB} GB (${availableSpace} bytes) available but at least ${neededSpaceInGB} GB (${neededSpaceWithMargin} bytes) are needed."
+        echo "Please add more storage to ${ALEPHIUM_HOME}."
         exit 1
     fi
 
