@@ -57,7 +57,7 @@ then
     echo "Loading $ALEPHIUM_NETWORK snapshot from official https://archives.alephium.org"
     # Creating a temp folder (on the same volume) where snapshot will be loaded
     mkdir "$ALEPHIUM_HOME/${ALEPHIUM_NETWORK}-snapshot"
-    curl -L "$(curl -s https://archives.alephium.org/archives/$ALEPHIUM_NETWORK/full-node-data/_latest.txt)" | $TEE_HASH_CMD | tar xf - -C "$ALEPHIUM_HOME/${ALEPHIUM_NETWORK}-snapshot"
+    curl -L "$(curl -sL https://archives.alephium.org/archives/$ALEPHIUM_NETWORK/full-node-data/_latest.txt)" | $TEE_HASH_CMD | tar xf - -C "$ALEPHIUM_HOME/${ALEPHIUM_NETWORK}-snapshot"
     res=$?
     if [ "$res" != "0" ]; # If curl or tar command failed, stopping the load of the snapshot.
     then
@@ -67,7 +67,7 @@ then
     if [ "${VALIDATE_CHECKSUM}" = "1" ]
     then
       # Check sha256 of what has been downloaded
-      remote_sha256sum="$(curl -s https://archives.alephium.org/archives/$ALEPHIUM_NETWORK/full-node-data/_latest.txt.sha256sum)"
+      remote_sha256sum="$(curl -sL https://archives.alephium.org/archives/$ALEPHIUM_NETWORK/full-node-data/_latest.txt.sha256sum)"
       local_sha256sum=$(cat "${CHECKSUM_FILE}")
       if [ "$remote_sha256sum" != "$local_sha256sum" ]
       then
