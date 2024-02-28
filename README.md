@@ -23,7 +23,8 @@ A basic [docker-compose.yml](./docker-compose.yml) show how to quickly run the c
 |--------------------------------|----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | ALEPHIUM_HOME                  | `/alephium-home/.alephium` | Path, inside the official `alephium/alephium`, there the full node stores its data. See the official [Dockerfile.release](https://github.com/alephium/alephium/blob/master/docker/release/Dockerfile.release) for more details. |
 | ALEPHIUM_NETWORK               | `mainnet`                  | Which network to load the snapshots for. Possible values are mainnet and testnet. !! If you set your own `user.conf`, this value should match `alephium.network.network-id` in `user.conf` !! (mainnet = 0, testnet = 1)        |
-| ALEPHIUM_FORCE_RELOAD_SNAPSHOT | `0`                        | If set to `1`, the database will be dropped at every reboot. Useful for testing, not recommended in working setups.                                                                                                             |                                                                                                                                         |
+| ALEPHIUM_FORCE_RELOAD_SNAPSHOT | `0`                        | If set to `1`, the database will be dropped at every reboot. Useful for testing, not recommended in working setups.                                                                                                             |
+| NODE_TYPE                      | `pruned`                   | Define which snapshot to load between the pruned or the full snapshots. Pruned snapshot decrease the resources rquirement to ~50GB of disk storage.                                                                      |
 
 # Using the standalone script
 
@@ -46,7 +47,7 @@ For more details about [Alephium Archives](https://archives.alephium.org) and sn
 
 # One liner to launch the container
 
-Mostly given as a reference, this _one liner_ allows launching an Alephium full node in one line (if `docker` is installed):
+Mostly given as a reference, this *one liner* allows launching an Alephium full node in one line (if `docker` is installed):
 
 ```
 ALEPHIUM_HOME=/tmp
@@ -56,14 +57,14 @@ docker run -p 39973:39973 -p 127.0.0.1:12973:12973 \
   -e ALEPHIUM_NETWORK=${ALEPHIUM_NETWORK} touilleio/alephium-standalone:latest
 ```
 
-This command is not 
+This command is not
 
 # Wrapper script details
 
 The [wrapper script](./entrypoint-wrapper.sh) contains lots of comments to make it understandable of what and how it is wrapping
 the official [entrypoint.sh script](https://github.com/alephium/alephium/blob/master/docker/release/entrypoint.sh).
 
-# Troubleshooting 
+# Troubleshooting
 
 ## Restarting from scratch
 
