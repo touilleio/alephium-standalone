@@ -57,7 +57,7 @@ docker run -p 39973:39973 -p 127.0.0.1:12973:12973 \
   -e ALEPHIUM_NETWORK=${ALEPHIUM_NETWORK} touilleio/alephium-standalone:latest
 ```
 
-This command is not
+This command is not production ready and extra care must be taken for running a productive full node.
 
 # Wrapper script details
 
