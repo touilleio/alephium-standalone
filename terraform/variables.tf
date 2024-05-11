@@ -54,3 +54,9 @@ variable "offset_shift" {
   type        = number
   default     = 0
 }
+
+variable "ingress_cidr" {
+  description = "Ingress range, for instance 1.2.3.4/32 or 0.0.0.0/0 to allow to ssh into the instance. If empty value, https://myip.touille.io is used to detect the public ip of the caller. Could be set via TF_VAR_ingress_cidr environment variable."
+  type = string
+  default = ""
+}
