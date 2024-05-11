@@ -5,6 +5,7 @@ data "aws_availability_zones" "available" {
 
 locals {
   cidrs = [for i in range(min(length(data.aws_availability_zones.available.names), 4)) : cidrsubnet(var.vpc_cidr, 4, i)]
+  ingress_cidr = var.ingress_cidr != "" ? var.ingress_cidr : module.myip.cidr
 }
 
 module "vpc" {
@@ -74,7 +75,7 @@ resource "aws_security_group" "alephium_broker_ssh" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = [module.myip.cidr]
+    cidr_blocks = [local.ingress_cidr]
   }
   tags = var.extra_tags
 }
