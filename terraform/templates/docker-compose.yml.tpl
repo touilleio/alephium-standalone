@@ -13,6 +13,8 @@ services:
     volumes:
       - ./alephium-data:/alephium-home/.alephium
       - ./alephium-wallets:/alephium-home/.alephium-wallets
+    environment:
+      - NODE_TYPE="${node_type}"
     labels:
       - org.label-schema.group=alephium
     logging:

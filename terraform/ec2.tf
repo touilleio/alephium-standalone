@@ -101,6 +101,7 @@ data "template_file" "docker_compose" {
   template = file("${path.module}/templates/docker-compose.yml.tpl")
   vars = {
     alephium_image = var.alephium_image
+    node_type      = var.node_snapshot_type
   }
 }
 
