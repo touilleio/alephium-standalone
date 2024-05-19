@@ -38,7 +38,7 @@ variable "network_id" {
 }
 
 variable "ebs_block_device_size" {
-  description = "Size of the data device to attach to the instance. Recommanded value is 40 if node_snapshot_type is pruned, 120 if node_snapshot_type is full"
+  description = "Size of the data device to attach to the instance. Recommanded value is 40 if node_snapshot_type is pruned, 150 if node_snapshot_type is full"
   type = number
   default = 40
 }
