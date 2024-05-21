@@ -15,6 +15,7 @@ services:
       - ./alephium-wallets:/alephium-home/.alephium-wallets
     environment:
       - NODE_TYPE=${node_type}
+      - ALEPHIUM_NETWORK=${network}
     labels:
       - org.label-schema.group=alephium
     logging:

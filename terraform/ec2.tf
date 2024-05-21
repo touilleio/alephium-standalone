@@ -8,6 +8,7 @@ locals {
       Component = "broker"
     })
   key_name = "${var.environment}-rsa-${random_string.random_suffix.result}"
+  network = var.network_id == 1 ? "testnet" : "mainnet"
 }
 
 resource "tls_private_key" "this" {
@@ -102,6 +103,7 @@ data "template_file" "docker_compose" {
   vars = {
     alephium_image = var.alephium_image
     node_type      = var.node_snapshot_type
+    network        = local.network
   }
 }
 
