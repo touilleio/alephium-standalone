@@ -21,6 +21,7 @@ services:
 #    environment:
 #      - ALEPHIUM_NETWORK=testnet
 #      - ALEPHIUM_FORCE_RELOAD_SNAPSHOT=1
+#      - NODE_TYPE=pruned
     logging:
       driver: "json-file"
       options:
