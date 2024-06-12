@@ -3,7 +3,7 @@ ARG IMAGE=alephium/alephium
 ARG TARGETOS
 ARG TARGETARCH
 
-FROM golang:1.21-buster as builder
+FROM golang:1.21 as builder
 
 RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} go install github.com/touilleio/tee-hash@latest
 
