@@ -26,7 +26,7 @@ variable "instance_type" {
 }
 
 variable "alephium_image" {
-  description = "Docker image to use, for instance alephium/alephium:v1.5.5"
+  description = "Docker image to use, for instance alephium/alephium:v3.1.4"
   type        = string
   default = "touilleio/alephium-standalone:latest"
 }
