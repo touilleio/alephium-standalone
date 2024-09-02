@@ -2,6 +2,7 @@
 
 ALEPHIUM_HOME=${ALEPHIUM_HOME:-/alephium-home/.alephium}
 ALEPHIUM_NETWORK=${ALEPHIUM_NETWORK:-mainnet}
+NODE_INDEXES_CONFIG=${NODE_INDEXES_CONFIG:-with-indexes}
 
 # Call snapshot-loader.sh and ensure it completed successfully, stopping the execution otherwise.
 if ! ./snapshot-loader.sh
@@ -14,7 +15,7 @@ fi
 if [ ! -f "$ALEPHIUM_HOME/user.conf" ]
 then
     echo "Copying standalone user.conf file"
-    cp "/user-$ALEPHIUM_NETWORK.conf" "$ALEPHIUM_HOME/user.conf"
+    cp "/user-$ALEPHIUM_NETWORK-$NODE_INDEXES_CONFIG.conf" "$ALEPHIUM_HOME/user.conf"
 fi
 
 echo "Now starting Alephium full node!"
