@@ -5,6 +5,7 @@ ALEPHIUM_NETWORK=${ALEPHIUM_NETWORK:-mainnet}
 ALEPHIUM_FORCE_RELOAD_SNAPSHOT=${ALEPHIUM_FORCE_RELOAD_SNAPSHOT:-0}
 # Node type: full or pruned. Any other value might cause unexpected behaviour
 NODE_TYPE=${NODE_TYPE:-pruned}
+INDEXES_TYPE=${INDEXES_TYPE:-with}
 
 # If tee-hash (https://github.com/touilleio/tee-hash) is available, validates the checksum of the downloaded file.
 # Do not validate the checksum otherwise
@@ -46,7 +47,7 @@ then
 
     # Check if enough disk space available
     availableSpace=$(df -B1 "$ALEPHIUM_HOME" | tail -n 1 | awk '{print $4}' | head -n 1)
-    neededSpace=$(curl -s -I -L "$(curl -sL https://archives.alephium.org/archives/$ALEPHIUM_NETWORK/${NODE_TYPE}-node-data/_latest.txt)" | grep -i 'Content-Length:' | awk '{print $2}' | tr -d '\r')
+    neededSpace=$(curl -s -I -L "$(curl -sL https://archives.alephium.org/archives/$ALEPHIUM_NETWORK/${NODE_TYPE}-node-data/_latest_${INDEXES_TYPE}-indexes.txt)" | grep -i 'Content-Length:' | awk '{print $2}' | tr -d '\r')
     neededSpaceWithMargin=$(echo "${neededSpace} * 1.2 / 1" | bc)
     neededSpaceInGB=$(echo "${neededSpaceWithMargin} / 1000 / 1000 / 1000 / 1" | bc)
     availableSpaceInGB=$(echo "${availableSpace} / 1000 / 1000 / 1000 / 1" | bc)
@@ -59,7 +60,7 @@ then
     echo "Loading $ALEPHIUM_NETWORK snapshot from official https://archives.alephium.org"
     # Creating a temp folder (on the same volume) where snapshot will be loaded
     mkdir "$ALEPHIUM_HOME/${ALEPHIUM_NETWORK}-snapshot"
-    curl -L "$(curl -sL https://archives.alephium.org/archives/$ALEPHIUM_NETWORK/${NODE_TYPE}-node-data/_latest.txt)" | $TEE_HASH_CMD | tar xf - -C "$ALEPHIUM_HOME/${ALEPHIUM_NETWORK}-snapshot"
+    curl -L "$(curl -sL https://archives.alephium.org/archives/$ALEPHIUM_NETWORK/${NODE_TYPE}-node-data/_latest_${INDEXES_TYPE}-indexes.txt)" | $TEE_HASH_CMD | tar xf - -C "$ALEPHIUM_HOME/${ALEPHIUM_NETWORK}-snapshot"
     res=$?
     if [ "$res" != "0" ]; # If curl or tar command failed, stopping the load of the snapshot.
     then
@@ -69,7 +70,7 @@ then
     if [ "${VALIDATE_CHECKSUM}" = "1" ]
     then
       # Check sha256 of what has been downloaded
-      remote_sha256sum="$(curl -sL https://archives.alephium.org/archives/$ALEPHIUM_NETWORK/${NODE_TYPE}-node-data/_latest.txt.sha256sum)"
+      remote_sha256sum="$(curl -sL https://archives.alephium.org/archives/$ALEPHIUM_NETWORK/${NODE_TYPE}-node-data/_latest_${INDEXES_TYPE}-indexes.txt.sha256sum)"
       local_sha256sum=$(cat "${CHECKSUM_FILE}")
       if [ "$remote_sha256sum" != "$local_sha256sum" ]
       then

@@ -3,9 +3,9 @@ ARG IMAGE=alephium/alephium
 ARG TARGETOS
 ARG TARGETARCH
 
-FROM golang:1.21 as builder
+# FROM golang:1.21 as builder
 
-RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} go install github.com/touilleio/tee-hash@latest
+# RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} go install github.com/touilleio/tee-hash@latest
 
 FROM ${IMAGE}:${RELEASE}
 
@@ -13,7 +13,7 @@ USER root
 RUN apt update && apt-get install -y bc && apt-get clean
 USER nobody
 
-COPY --from=builder /go/bin/tee-hash /usr/local/bin/tee-hash
+# COPY --from=builder /go/bin/tee-hash /usr/local/bin/tee-hash
 
 # Remove empty user.conf from parent container
 RUN rm -rf /alephium-home/.alephium/user.conf
