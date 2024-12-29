@@ -38,9 +38,9 @@ variable "network_id" {
 }
 
 variable "ebs_block_device_size" {
-  description = "Size of the data device to attach to the instance. Recommanded value is 50 if node_snapshot_type is pruned, 150 if node_snapshot_type is full"
+  description = "Size of the data device to attach to the instance. Recommanded value is 80 if node_snapshot_type is pruned, 250 if node_snapshot_type is full"
   type = number
-  default = 40
+  default = 80
 }
 
 variable "ebs_block_device_type" {
@@ -65,4 +65,19 @@ variable "node_snapshot_type" {
   description = "Snapshot type to load, either pruned (default) or full. Could be set via TF_VAR_node_snapshot_type environment variable."
   type = string
   default = "pruned"
+  validation {
+    condition     = contains(["full", "pruned"], var.node_snapshot_type)
+    error_message = "Must be either \"full\" or \"pruned\"."
+  }
+}
+
+variable "node_indexes_config" {
+  description = "Snapshot options, namely with-indexes (default) or without-indexes to load. Could be set via TF_VAR_node_indexes_config environment variable."
+  type = string
+  default = "with-indexes"
+
+  validation {
+    condition     = contains(["with-indexes", "without-indexes"], var.node_indexes_config)
+    error_message = "Must be either \"with-indexes\" or \"without-indexes\"."
+  }
 }

@@ -40,7 +40,7 @@ resource "local_sensitive_file" "pem_file" {
 
 resource "aws_instance" "instance" {
   count                       = var.instance_count
-  ami                         = data.aws_ami.ubuntu-jammy.id
+  ami                         = data.aws_ami.ubuntu-noble.id
   instance_type               = var.instance_type
   subnet_id                   = element(module.vpc.public_subnets, count.index)
   associate_public_ip_address = true
@@ -101,9 +101,10 @@ data "template_file" "docker_compose" {
   count    = var.instance_count
   template = file("${path.module}/templates/docker-compose.yml.tpl")
   vars = {
-    alephium_image = var.alephium_image
-    node_type      = var.node_snapshot_type
-    network        = local.network
+    alephium_image      = var.alephium_image
+    node_type           = var.node_snapshot_type
+    network             = local.network
+    node_indexes_config = var.node_indexes_config
   }
 }
 

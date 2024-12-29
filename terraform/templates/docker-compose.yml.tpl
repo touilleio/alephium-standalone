@@ -15,6 +15,7 @@ services:
       - ./alephium-wallets:/alephium-home/.alephium-wallets
     environment:
       - NODE_TYPE=${node_type}
+      - NODE_INDEXES_CONFIG=${node_indexes_config}
       - ALEPHIUM_NETWORK=${network}
     labels:
       - org.label-schema.group=alephium
